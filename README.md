@@ -1,4 +1,4 @@
-# Hasura GraphQL Engine on Heroku
+# Electoraid Hasura GraphQL Engine on Heroku
 
 [![GitHub stars](https://img.shields.io/github/stars/hasura/graphql-engine.svg?style=social&label=Star)](https://github.com/hasura/graphql-engine) 
 <a href="https://discord.gg/vBPpJkS"><img src="https://img.shields.io/badge/chat-discord-brightgreen.svg?logo=discord&style=flat"></a>
