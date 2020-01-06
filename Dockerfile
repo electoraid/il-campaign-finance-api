@@ -1,23 +1,34 @@
-FROM hasura/graphql-engine:pull2395-7ea7f82c
+FROM hasura/graphql-engine:v1.0.0 as base
+FROM python:3.7-slim-buster
 
-# Enable the console
-ENV HASURA_GRAPHQL_ENABLE_CONSOLE=true
+RUN apt-get update -qq \
+    && apt-get install -y --no-install-recommends build-essential aria2 libpq-dev postgresql-client
 
-# Change $DATABASE_URL to your heroku postgres URL if you're not using
-# the primary postgres instance in your app
+# Copy hausra binary from base container
+COPY --from=base /bin/graphql-engine /bin/graphql-engine
+
+# Install xsv
+# RUN cargo install xsv
+
+# Add xsv binary to PATH
+# ENV PATH="/root/.cargo/bin/:${PATH}"
+
+# Set up shop in il-campaign-finance-api directory
+WORKDIR /il-campaign-finance-api/
+
+# Install ETL / processing
+COPY ilcampaigncash/Makefile Makefile
+ADD ilcampaigncash/data/ data/
+ADD ilcampaigncash/sql/ sql/
+ADD ilcampaigncash/processors/ processors/
+# ADD ilcampaigncash/scripts/ scripts/
+
+# The makefile requires a dotenv file; it's empty because the variables come from
+# Heroku instead
+RUN touch .env
+
+# Run Hasura
 CMD graphql-engine \
     --database-url $DATABASE_URL \
     serve \
     --server-port $PORT
-
-## Comment the command above and use the command below to
-## enable an access-key and an auth-hook
-## Recommended that you set the access-key as a environment variable in heroku
-#CMD graphql-engine \
-#    --database-url $DATABASE_URL \
-#    serve \
-#    --server-port $PORT \
-#    --access-key XXXXX \
-#    --auth-hook https://myapp.com/hasura-webhook 
-#
-# Console can be enable/disabled by the env var HASURA_GRAPHQL_ENABLE_CONSOLE
