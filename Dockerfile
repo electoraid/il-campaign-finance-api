@@ -18,8 +18,6 @@ WORKDIR /il-campaign-finance-api/
 
 # Install ETL / processing
 COPY ilcampaigncash/Makefile Makefile
-COPY ilcampaigncash/Pipfile Pipfile
-COPY ilcampaigncash/Pipfile.lock Pipfile.lock
 ADD ilcampaigncash/data/ data/
 ADD ilcampaigncash/sql/ sql/
 ADD ilcampaigncash/processors/ processors/
