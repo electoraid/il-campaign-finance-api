@@ -1,0 +1,3 @@
+[submodule "ilcampaigncash"]
+	path = ilcampaigncash
+	url = https://github.com/thechicagoreporter/ilcampaigncash
