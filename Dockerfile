@@ -2,7 +2,7 @@ FROM hasura/graphql-engine:v1.0.0 as base
 FROM python:3.7-slim-buster
 
 RUN apt-get update -qq \
-    && apt-get install -y --no-install-recommends build-essential aria2 libpq-dev postgresql-client
+    && apt-get install -y --no-install-recommends build-essential aria2 pipenv libpq-dev postgresql-client
 
 # Copy hausra binary from base container
 COPY --from=base /bin/graphql-engine /bin/graphql-engine
@@ -18,6 +18,8 @@ WORKDIR /il-campaign-finance-api/
 
 # Install ETL / processing
 COPY ilcampaigncash/Makefile Makefile
+COPY ilcampaigncash/Pipfile Pipfile
+COPY ilcampaigncash/Pipfile.lock Pipfile.lock
 ADD ilcampaigncash/data/ data/
 ADD ilcampaigncash/sql/ sql/
 ADD ilcampaigncash/processors/ processors/
