@@ -10,12 +10,18 @@ COPY --from=base /bin/graphql-engine /bin/graphql-engine
 # Set up shop in il-campaign-finance-api directory
 WORKDIR /il-campaign-finance-api/
 
+# Set up virtualenv in project directory
+ENV PIPENV_VENV_IN_PROJECT=1
+
 # Install ETL / processing
 COPY ilcampaigncash/Makefile Makefile
+COPY ilcampaigncash/Pipfile Pipfile
 ADD ilcampaigncash/data/ data/
 ADD ilcampaigncash/sql/ sql/
 ADD ilcampaigncash/processors/ processors/
 # ADD ilcampaigncash/scripts/ scripts/
+
+RUN pipenv install --deploy --ignore-pipfile
 
 # The makefile requires a dotenv file; it's empty because the variables come from
 # Heroku instead
