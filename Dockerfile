@@ -11,7 +11,7 @@ COPY --from=base /bin/graphql-engine /bin/graphql-engine
 WORKDIR /il-campaign-finance-api/
 
 # Set up virtualenv in project directory
-ENV PIPENV_VENV_IN_PROJECT=1
+# ENV PIPENV_VENV_IN_PROJECT=1
 
 # Install ETL / processing
 COPY ilcampaigncash/Makefile Makefile
